@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💕 致 全世界最最最温柔美丽可爱的萍宝 💕</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "Microsoft YaHei","微软雅黑","PingFang SC",sans-serif;
+  overflow-x: hidden;
+  background: #0a0e27;
+  color: #fff;
+}
+#overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.75);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+  transition: opacity 1s, visibility 1s;
+}
+#overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.enter-btn {
+  padding: 28px 60px; font-size: 28px; font-weight: bold;
+  background: linear-gradient(135deg, #ff6b9d, #c44dff);
+  color: #fff; border: none; border-radius: 60px; cursor: pointer;
+  box-shadow: 0 0 60px rgba(255,107,157,0.5);
+  animation: pulse-glow 2s ease-in-out infinite;
+  transition: transform 0.3s; letter-spacing: 3px;
+}
+.enter-btn:hover { transform: scale(1.08); }
+@keyframes pulse-glow {
+  0%,100% { box-shadow: 0 0 40px rgba(255,107,157,0.4); }
+  50% { box-shadow: 0 0 80px rgba(255,107,157,0.8), 0 0 120px rgba(196,77,255,0.4); }
+}
+#sky {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(180deg, #0a0e27 0%, #1a1040 40%, #2d1b69 70%, #1a1040 100%);
+  z-index: -2;
+}
+.star {
+  position: absolute; background: #fff; border-radius: 50%;
+  animation: twinkle var(--dur) ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+.shooting-star {
+  position: absolute; width: 3px; height: 3px;
+  background: #fff; border-radius: 50%;
+  box-shadow: 0 0 6px 2px rgba(255,255,255,0.6);
+  animation: shoot var(--dur) linear infinite;
+  animation-delay: var(--delay);
+}
+.shooting-star::after {
+  content: ''; position: absolute; top: 50%; width: 80px; height: 1px;
+  background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
+  transform: translateY(-50%);
+}
+@keyframes shoot {
+  0% { transform: translate(0,0) rotate(-35deg); opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: translate(-600px,400px) rotate(-35deg); opacity: 0; }
+}
+.silhouette-container {
+  position: fixed; bottom: 0; left: 50%;
+  transform: translateX(-50%); width: 400px; height: 300px;
+  z-index: -1; opacity: 0.6;
+}
+.silhouette-container svg { width: 100%; height: 100%; }
+.floating-heart {
+  position: fixed; pointer-events: none; z-index: 0;
+  opacity: 0; font-size: var(--size);
+  animation: float-up var(--dur) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+@keyframes float-up {
+  0% { transform: translateY(100vh) rotate(0deg) scale(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-10vh) rotate(360deg) scale(1); opacity: 0; }
+}
+.cursor-heart {
+  position: fixed; pointer-events: none; z-index: 9998;
+  font-size: 20px; user-select: none;
+}
+.container { position: relative; max-width: 800px; margin: 0 auto; padding: 20px; z-index: 1; }
+.header-section {
+  text-align: center; padding: 120px 20px 60px;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.header-section h1 {
+  font-size: 48px;
+  background: linear-gradient(135deg, #ff6b9d, #ffd700, #c44dff);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin-bottom: 20px;
+  animation: title-glow 3s ease-in-out infinite;
+}
+@keyframes title-glow {
+  0%,100% { filter: drop-shadow(0 0 10px rgba(255,107,157,0.3)); }
+  50% { filter: drop-shadow(0 0 30px rgba(255,107,157,0.6)); }
+}
+.header-section p { font-size: 20px; color: rgba(255,255,255,0.8); line-height: 1.8; max-width: 500px; letter-spacing: 2px; }
+.card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px; padding: 30px; margin: 40px 0;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  opacity: 0; transform: translateY(50px);
+  transition: opacity 0.8s, transform 0.8s;
+}
+.card.visible { opacity: 1; transform: translateY(0); }
+.card h2 { font-size: 28px; margin-bottom: 16px; color: #ffb6c1; text-align: center; }
+.card .caption { font-size: 16px; color: rgba(255,255,255,0.75); text-align: center; margin-bottom: 20px; line-height: 1.8; letter-spacing: 1px; }
+.card img { width: 100%; border-radius: 16px; display: block; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.confession-section { text-align: center; padding: 60px 20px; min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.confession-section h2 { font-size: 36px; margin-bottom: 20px; color: #ffb6c1; }
+.confession-section .big-text { font-size: 22px; color: rgba(255,255,255,0.8); margin-bottom: 40px; line-height: 1.8; }
+.btn-group { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
+.btn-yes, .btn-no {
+  padding: 18px 50px; font-size: 22px; font-weight: bold;
+  border: none; border-radius: 50px; cursor: pointer;
+  transition: all 0.3s; letter-spacing: 2px;
+}
+.btn-yes {
+  background: linear-gradient(135deg, #ff6b9d, #ff3366);
+  color: #fff; box-shadow: 0 4px 20px rgba(255,107,157,0.4);
+}
+.btn-yes:hover { transform: scale(1.1); box-shadow: 0 8px 40px rgba(255,107,157,0.6); }
+.btn-no { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.2); }
+.btn-no:hover { background: rgba(255,255,255,0.25); }
+.btn-no-forced {
+  background: linear-gradient(135deg, #ff6b9d, #ff3366) !important;
+  color: #fff !important; border: none !important;
+  box-shadow: 0 4px 20px rgba(255,107,157,0.4) !important;
+  animation: force-pulse 0.8s ease-in-out infinite !important;
+}
+@keyframes force-pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.15); box-shadow: 0 8px 50px rgba(255,107,157,0.8); }
+}
+#confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9997; }
+.rain-heart { position: fixed; pointer-events: none; z-index: 9996; font-size: var(--size); animation: heart-rain var(--dur) linear forwards; }
+@keyframes heart-rain {
+  0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+.footer { text-align: center; padding: 40px 20px; color: rgba(255,255,255,0.95); font-size: 17px; letter-spacing: 2px; text-shadow: 0 0 20px rgba(255,255,255,0.15); }
+</style>
+</head>
+<body>
+
+<div id="overlay">
+  <button class="enter-btn" onclick="enterSite()">💕 点击开启我们的故事 💕</button>
+</div>
+
+<div id="sky"></div>
+
+<div class="silhouette-container">
+  <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="200" cy="290" rx="180" ry="15" fill="rgba(255,255,255,0.05)"/>
+    <circle cx="320" cy="50" r="30" fill="#ffe4b5" opacity="0.6"/>
+    <circle cx="330" cy="45" r="28" fill="#0a0e27" opacity="0.8"/>
+    <g transform="translate(140, 120)" fill="#1a1a2e">
+      <ellipse cx="0" cy="20" rx="18" ry="22"/>
+      <circle cx="0" cy="-8" r="14"/>
+      <path d="M-14,-8 Q-22,-20 -18,-40 Q-14,-55 -8,-50 Q-4,-48 -6,-35 Q-8,-25 -10,-15"/>
+      <path d="M14,-8 Q22,-20 18,-40 Q14,-55 8,-50 Q4,-48 6,-35 Q8,-25 10,-15"/>
+      <path d="M-16,-6 Q-28,-15 -26,-35 Q-24,-50 -18,-45"/>
+      <path d="M16,-6 Q28,-15 26,-35 Q24,-50 18,-45"/>
+      <path d="M-22,38 Q-25,65 -15,78 L15,78 Q25,65 22,38 Z"/>
+      <path d="M-18,18 Q-30,10 -28,25" stroke="#1a1a2e" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M18,18 Q30,10 28,25" stroke="#1a1a2e" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <circle cx="-28" cy="25" r="3" fill="#1a1a2e"/>
+      <circle cx="28" cy="25" r="3" fill="#1a1a2e"/>
+    </g>
+    <g transform="translate(230, 115)" fill="#1a1a2e">
+      <ellipse cx="0" cy="25" rx="20" ry="24"/>
+      <circle cx="0" cy="-5" r="15"/>
+      <path d="M-15,-5 Q-20,-22 -10,-28 Q0,-32 10,-28 Q20,-22 15,-5"/>
+      <path d="M-15,-5 Q-22,-12 -18,-22"/>
+      <path d="M15,-5 Q22,-12 18,-22"/>
+      <path d="M-20,42 Q-22,68 -12,80 L12,80 Q22,68 20,42 Z"/>
+      <path d="M-20,20 Q-35,8 -32,28" stroke="#1a1a2e" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M20,20 Q35,8 32,28" stroke="#1a1a2e" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <circle cx="-32" cy="28" r="3.5" fill="#1a1a2e"/>
+      <circle cx="32" cy="28" r="3.5" fill="#1a1a2e"/>
+    </g>
+    <circle cx="180" cy="65" r="2" fill="#fff" opacity="0.7"/>
+    <circle cx="220" cy="55" r="1.5" fill="#fff" opacity="0.5"/>
+    <circle cx="200" cy="75" r="1" fill="#fff" opacity="0.4"/>
+  </svg>
+</div>
+
+<div class="container">
+  <div class="header-section">
+    <h1>💘致 全世界最最最<br>温柔美丽可爱的<br>萍宝 💕</h1>
+    <p>我一直在想，该用什么样的方式告诉你我的心意<br>后来才懂，最真诚的告白，就是把美好都展现给你❤️<br>虽然我平时话比较少，但我下面的内容都是认真的，希望你别看哭了~</p>
+  </div>
+
+  <div class="card" data-delay="0">
+    <h2>🌙 想说的话</h2>
+    <p class="caption">在这个快餐式爱情的时代，绝大多数人都是微信发个消息草率地就表白了，咱学了计算机，我打算来点不一样的，做了个虽然简单但也还算浪漫的网页💗搭配这首我爱的bgm<br>这个网页我准备了很久，一直想等到合适的时间和地点再发给你但又不敢发，就今天夜晚，白塔山顶，我会永远记住这一刻❤️</p>
+    <img src="1.jpg" alt="Photo 1" loading="lazy">
+    <p class="caption" style="background:linear-gradient(135deg,#ff6b9d,#ffd700,#c44dff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:28px;font-weight:bold;animation:title-glow 3s ease-in-out infinite;padding:15px 0">↑↑↑<br>女生都喜欢的鲜花和仪式感</p>
+  </div>
+
+  <div class="card" data-delay="0.2">
+    <h2>☀️ 手写情书</h2>
+    <p class="caption">虽然你是姐姐，但是你真的很温柔体贴可爱😙让我心动💕我在别的女生那从没感受到你给我的这种情绪价值💗我真的想在学生时期遇到真爱，谈一场不分手的恋爱，不然我会遗憾后悔一辈子。如果你也喜欢我的话，我们可以先偷着谈，防止一些没必要的意想不到的流言蜚语，也不会影响学习💘等大四开学一切尘埃落定了再官宣也不迟，接下来的一年我们一起努力，慢慢变好<br>如果你并不喜欢我的话也能理解哈哈😔你也每天都很忙。祝你以后遇到让你各方面都满意心动的男神，我们以后就正常比赛合作。</p>
+    <img src="2.jpg" alt="Photo 2" loading="lazy">
+  </div>
+
+  <div class="card" data-delay="0.4">
+    <h2>⭐ 未来的期许</h2>
+    <p class="caption">你说过你相信真爱，我对你便是真爱💕我以后要陪你去很多你想去的城市，研究生我也想去你和一样的学校。我会充分尊重且考虑你的一切决定，听你的，以后你留在甘肃我也会想办法来这边❤️<br>想把星星⭐摘给你，想把全世界给你。想——在你身边，陪你到老💕</p>
+    <img src="3.jpg" alt="Photo 3" loading="lazy">
+    <p class="caption" style="background:linear-gradient(135deg,#ff6b9d,#ffd700,#c44dff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:28px;font-weight:bold;animation:title-glow 3s ease-in-out infinite;padding:15px 0">↑↑↑<br>超级大美女💘</p>
+  </div>
+
+  <div class="confession-section card" style="opacity:0;transform:translateY(50px)" data-delay="0.6">
+    <h2>💖 有一句话，藏了很久了……</h2>
+    <p class="big-text">从遇见你的那天起<br>我的每一个愿望，都和你有关<br>所以……</p>
+    <h2 style="font-size:42px;margin:30px 0">你愿意做我女朋友吗？💕</h2>
+    <div class="btn-group" id="confession-btns">
+      <button class="btn-yes" onclick="sayYes()">我愿意 ❤️</button>
+      <button class="btn-no" id="btn-no" onclick="sayNo()">不愿意 😢</button>
+    </div>
+  </div>
+
+  <div class="footer">（背景想象成以后我两一起看流星雨划过夜空哈哈）<br>你若不离，我便不弃💕
+     <br>遇见你是我这辈子最幸运的事💘<br>—— wsa
+  </div>
+</div>
+
+<canvas id="confetti-canvas"></canvas>
+
+<audio id="bgm" loop preload="auto">
+  <source src="长安姑娘.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+(function(){
+  const sky = document.getElementById('sky');
+  for(let i=0;i<200;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    const size=Math.random()*3+1;
+    s.style.cssText='width:'+size+'px;height:'+size+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*70)+'%;--dur:'+((Math.random()*3+2).toFixed(1))+'s;animation-delay:'+((Math.random()*5).toFixed(1))+'s';
+    sky.appendChild(s);
+  }
+  for(let i=0;i<4;i++){
+    const m=document.createElement('div');
+    m.className='shooting-star';
+    m.style.cssText='left:'+(Math.random()*60+40)+'%;top:'+(Math.random()*30)+'%;--dur:'+((Math.random()*3+3).toFixed(1))+'s;--delay:'+((Math.random()*8+i*3).toFixed(1))+'s';
+    sky.appendChild(m);
+  }
+})();
+
+(function(){
+  const emojis=['💕','💗','💖','💘','💝','❤️','🌸','✨'];
+  for(let i=0;i<15;i++){
+    const h=document.createElement('div');
+    h.className='floating-heart';
+    h.textContent=emojis[i%emojis.length];
+    h.style.cssText='left:'+(Math.random()*100)+'%;--size:'+((Math.random()*24+16).toFixed(0))+'px;--dur:'+((Math.random()*12+10).toFixed(1))+'s;--delay:'+((Math.random()*15).toFixed(1))+'s';
+    document.body.appendChild(h);
+  }
+})();
+
+(function(){
+  const el=document.createElement('div');
+  el.className='cursor-heart';
+  el.textContent='💕';
+  el.style.display='none';
+  document.body.appendChild(el);
+  document.addEventListener('mousemove',function(e){
+    el.style.display='block';
+    el.style.left=(e.clientX+15)+'px';
+    el.style.top=(e.clientY-10)+'px';
+  });
+  document.addEventListener('mouseleave',function(){el.style.display='none';});
+})();
+
+const observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      var delay=parseFloat(entry.target.dataset.delay)||0;
+      setTimeout(function(){entry.target.classList.add('visible');},delay*1000);
+    }
+  });
+},{threshold:0.2});
+document.querySelectorAll('.card').forEach(function(el){observer.observe(el);});
+
+var audioStarted=false;
+function enterSite(){
+  document.getElementById('overlay').classList.add('hidden');
+  var audio=document.getElementById('bgm');
+  audio.volume = 0.3;
+  audio.play().then(function(){audioStarted=true;}).catch(function(e){console.log(e);});
+}
+
+function sayYes(){
+  startConfetti();
+  heartRain();
+  alert('💕 我就知道你会愿意的！💕\n\n从今以后，我会用尽全力对你好！\n做你最爱的人，陪你走过每一个春夏秋冬 ❤️');
+  var btns=document.getElementById('confession-btns');
+  btns.innerHTML='<div style="font-size:32px;animation:pulse-glow 2s ease-in-out infinite;padding:30px">💕 我们在一起啦！💕</div>';
+}
+
+function sayNo(){
+  alert('😤 不允许你不愿意！\n再给你一次机会~');
+  var btn=document.getElementById('btn-no');
+  btn.textContent='我愿意 ❤️';
+  btn.className='btn-no-forced';
+  btn.onclick=sayYes;
+}
+
+function startConfetti(){
+  var canvas=document.getElementById('confetti-canvas');
+  var ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  var pieces=[];
+  var colors=['#ff6b9d','#ffd700','#c44dff','#ff3366','#00d2ff','#ff9a9e','#a8e6cf','#ffecd2'];
+  for(var i=0;i<150;i++){
+    pieces.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height-canvas.height,
+      w:Math.random()*10+5,
+      h:Math.random()*6+3,
+      color:colors[Math.floor(Math.random()*colors.length)],
+      speed:Math.random()*3+2,
+      rot:Math.random()*360,
+      rotSpeed:Math.random()*10-5,
+      drift:Math.random()*2-1,
+      opacity:1
+    });
+  }
+  var frame=0;
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    var allDone=true;
+    for(var i=0;i<pieces.length;i++){
+      var p=pieces[i];
+      if(p.opacity<=0) continue;
+      allDone=false;
+      p.y+=p.speed;
+      p.x+=p.drift+Math.sin(frame*0.02+p.x*0.01)*0.5;
+      p.rot+=p.rotSpeed;
+      p.opacity-=0.002;
+      if(p.opacity<0) p.opacity=0;
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot*Math.PI/180);
+      ctx.globalAlpha=Math.max(0,p.opacity);
+      ctx.fillStyle=p.color;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+    }
+    frame++;
+    if(!allDone) requestAnimationFrame(animate);
+  }
+  animate();
+  setTimeout(function(){
+    for(var i=0;i<pieces.length;i++){
+      pieces[i].y=Math.random()*canvas.height-canvas.height;
+      pieces[i].opacity=1;
+      pieces[i].speed=Math.random()*3+2;
+      pieces[i].x=Math.random()*canvas.width;
+    }
+    animate();
+  },3000);
+}
+
+function heartRain(){
+  var emojis=['💕','💗','💖','❤️'];
+  for(var i=0;i<30;i++){
+    setTimeout(function(n){
+      return function(){
+        var el=document.createElement('div');
+        el.className='rain-heart';
+        el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+        el.style.cssText='left:'+(Math.random()*100)+'%;top:-'+(Math.random()*20)+'%;--size:'+((Math.random()*20+18).toFixed(0))+'px;--dur:'+((Math.random()*3+2).toFixed(1))+'s';
+        document.body.appendChild(el);
+        setTimeout(function(){el.remove();},5000);
+      };
+    }(i),i*100);
+  }
+}
+
+window.addEventListener('resize',function(){
+  var canvas=document.getElementById('confetti-canvas');
+  if(canvas){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+});
+</script>
+</body>
+</html>
